@@ -14,7 +14,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* ✅ Banner / Slider */}
+      {/*   Slider */}
       <section className="mb-12">
         <Swiper spaceBetween={20} slidesPerView={1} loop={true} autoplay={{ delay: 3000 }}>
           <SwiperSlide>
@@ -41,7 +41,7 @@ export default function Home() {
         </Swiper>
       </section>
 
-      {/* ✅ Featured Tasks Section */}
+      {/* Featured Tasks Section */}
       <section className="mb-12 px-6">
         <h2 className="text-2xl font-bold text-center mb-6">Featured Tasks</h2>
         <div className="grid md:grid-cols-3 gap-6">
