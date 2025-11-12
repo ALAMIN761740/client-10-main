@@ -16,7 +16,7 @@ const AddTask = () => {
       email: user?.email,
       description: form.description.value,
       budget: form.budget.value,
-      date: form.deadline.value,
+      date: new Date(form.deadline.value).toISOString(),
       category: form.category.value,
     };
 
@@ -31,7 +31,7 @@ const AddTask = () => {
       console.log(data)
       if(res.ok) {
         console.log("hi ")
-        toast.success("Task Added Successfully 🎉");
+        toast.success("Task Added Successfully ");
         navigate("/my-tasks");
       } else {
         toast.error(data.message || "Failed to add task");

@@ -13,6 +13,7 @@ import MyTasks from "../pages/MyTasks";
 import UpdateTask from "../pages/UpdateTask";
 
 import PrivateRoute from "../routes/PrivateRoute";
+import CategoryPage from "../pages/CategoryPage";
 
 const allRoutes = [
   {
@@ -66,7 +67,14 @@ const allRoutes = [
           </PrivateRoute>
         ),
       },
-      { path: "/browse-tasks", element: <BrowseTasks /> },
+      { path: "/browse-tasks", 
+        element: <BrowseTasks />
+      },
+      {
+      path: "/category/:categoryName",
+      element: <CategoryPage />,
+      },
+
     ],
   },
   { path: "*", element: <NotFoundPage /> },

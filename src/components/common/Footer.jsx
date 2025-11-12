@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+
 const Footer = () => {
   return (
     <footer className="bg-gray-800 text-gray-200 py-8">
@@ -12,9 +13,9 @@ const Footer = () => {
 
         <div className="flex gap-4">
           <Link to="/" className="hover:text-white transition">Home</Link>
-          <Link to="/services" className="hover:text-white transition">Services</Link>
-          <Link to="/about" className="hover:text-white transition">About</Link>
-          <Link to="/contact" className="hover:text-white transition">Contact</Link>
+          <Link to="/add-task" className="hover:text-white transition">Add Task</Link>
+          <Link to="/browse-tasks" className="hover:text-white transition">Browse Tasks</Link>
+          <Link to="/my-tasks" className="hover:text-white transition">My Tasks</Link>
         </div>
 
         <div className="flex gap-4 mt-4 md:mt-0">

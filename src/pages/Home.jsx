@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Autoplay } from "swiper/modules";
+import { useNavigate } from "react-router-dom";
 
 import slide1 from "../assets/pexels-tranmautritam-326503.jpg";
 import slide2 from "../assets/download.jpeg";
@@ -10,7 +11,19 @@ import slide4 from "../assets/ph.jpeg";
 import slide5 from "../assets/wariting.jpeg";
 
 export default function Home() {
-  const [ setTasks] = useState([]);
+  const [tasks, setTasks] = useState([]);
+  const navigate = useNavigate();
+
+  const categories = [
+    "Web Development",
+    "Graphic Design",
+    "Digital Marketing",
+    "Content Writing",
+    "App Development",
+    "UI/UX Design",
+    "SEO Optimization",
+    "Video Editing"
+  ];
 
   useEffect(() => {
     fetch("http://localhost:5000/api/tasks")
@@ -19,100 +32,63 @@ export default function Home() {
       .catch((err) => console.error("Error fetching tasks:", err));
   }, []);
 
+  const handleCategoryClick = (category) => {
+    navigate(`/category/${encodeURIComponent(category)}`);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-     <section className="mb-12">
-      <Swiper
-        spaceBetween={20}
-        slidesPerView={1}
-        loop={true}
-        autoplay={{ delay: 3000 }}
-        modules={[Autoplay]}
-      >
-        {/* Slide 1 */}
-        <SwiperSlide>
-          <div
-            className="h-[400px] flex flex-col justify-center items-center text-white rounded-lg bg-cover bg-center"
-            style={{ backgroundImage: `url(${slide1})` }}
-          >
-            <h2 className="text-3xl font-bold bg-black/50 px-4 py-2 rounded-lg">
-              Find the Right Freelancer
-            </h2>
-            <p className="mt-2 bg-black/40 px-3 py-1 rounded-md">
-              Post your task and get it done quickly!
-            </p>
-            <button className="btn btn-primary mt-4">Get Started</button>
-          </div>
-        </SwiperSlide>
+      {/* Swiper Section */}
+      <section className="mb-12">
+        <Swiper
+          spaceBetween={20}
+          slidesPerView={1}
+          loop={true}
+          autoplay={{ delay: 3000 }}
+          modules={[Autoplay]}
+        >
+          {[slide1, slide2, slide3, slide4, slide5].map((slide, idx) => (
+            <SwiperSlide key={idx}>
+              <div
+                className="h-[400px] flex flex-col justify-center items-center text-white rounded-lg bg-cover bg-center"
+                style={{ backgroundImage: `url(${slide})` }}
+              >
+                <h2 className="text-3xl font-bold bg-black/50 px-4 py-2 rounded-lg">
+                  {["Find the Right Freelancer","Work Anytime, Anywhere","Grow Your Skills","Hire Top Professionals","Build Your Dream Career"][idx]}
+                </h2>
+                <p className="mt-2 bg-black/40 px-3 py-1 rounded-md">
+                  {["Post your task and get it done quickly!",
+                    "Remote freelancing at your fingertips",
+                    "Join our community and earn more",
+                    "Connect with verified experts in minutes",
+                    "Turn your passion into income today"][idx]}
+                </p>
+                <button className={`btn mt-4 ${["btn-primary","btn-secondary","btn-accent","btn-info","btn-success"][idx]}`}>
+                  {["Get Started","Browse Tasks","Join Now","Hire Now","Start Now"][idx]}
+                </button>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </section>
 
-        {/* Slide 2 */}
-        <SwiperSlide>
-          <div
-            className="h-[400px] flex flex-col justify-center items-center text-white rounded-lg bg-cover bg-center"
-            style={{ backgroundImage: `url(${slide2})` }}
-          >
-            <h2 className="text-3xl font-bold bg-black/50 px-4 py-2 rounded-lg">
-              Work Anytime, Anywhere
-            </h2>
-            <p className="mt-2 bg-black/40 px-3 py-1 rounded-md">
-              Remote freelancing at your fingertips
-            </p>
-            <button className="btn btn-secondary mt-4">Browse Tasks</button>
-          </div>
-        </SwiperSlide>
+      {/* Top Categories */}
+      <section className="mb-12 px-6">
+        <h2 className="text-2xl font-bold text-center mb-6">Top Categories</h2>
+        <div className="grid md:grid-cols-4 gap-6">
+          {categories.map((cat, idx) => (
+            <div
+              key={idx}
+              onClick={() => handleCategoryClick(cat)}
+              className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow text-center cursor-pointer hover:scale-105 transition-transform"
+            >
+              <h3 className="font-semibold">{cat}</h3>
+            </div>
+          ))}
+        </div>
+      </section>
 
-        {/* Slide 3 */}
-        <SwiperSlide>
-          <div
-            className="h-[400px] flex flex-col justify-center items-center text-white rounded-lg bg-cover bg-center"
-            style={{ backgroundImage: `url(${slide3})` }}
-          >
-            <h2 className="text-3xl font-bold bg-black/50 px-4 py-2 rounded-lg">
-              Grow Your Skills
-            </h2>
-            <p className="mt-2 bg-black/40 px-3 py-1 rounded-md">
-              Join our community and earn more
-            </p>
-            <button className="btn btn-accent mt-4">Join Now</button>
-          </div>
-        </SwiperSlide>
-        {/* Slide 4 */}
-        <SwiperSlide>
-          <div
-            className="h-[400px] flex flex-col justify-center items-center text-white rounded-lg bg-cover bg-center"
-            style={{ backgroundImage: `url(${slide4})` }}
-          >
-            <h2 className="text-3xl font-bold bg-black/50 px-4 py-2 rounded-lg">
-              Hire Top Professionals
-            </h2>
-            <p className="mt-2 bg-black/40 px-3 py-1 rounded-md">
-              Connect with verified experts in minutes
-            </p>
-            <button className="btn btn-info mt-4">Hire Now</button>
-          </div>
-        </SwiperSlide>
-
-        {/* Slide 5 */}
-        <SwiperSlide>
-          <div
-            className="h-[400px] flex flex-col justify-center items-center text-white rounded-lg bg-cover bg-center"
-            style={{ backgroundImage: `url(${slide5})` }}
-          >
-            <h2 className="text-3xl font-bold bg-black/50 px-4 py-2 rounded-lg">
-              Build Your Dream Career
-            </h2>
-            <p className="mt-2 bg-black/40 px-3 py-1 rounded-md">
-              Turn your passion into income today
-            </p>
-            <button className="btn btn-success mt-4">Start Now</button>
-          </div>
-        </SwiperSlide>
-      </Swiper>
-    </section>
-
-      
-
-      {/* ✅ Extra Section 1: Why Choose Us */}
+      {/* Why Choose Us */}
       <section className="mb-12 px-6">
         <h2 className="text-2xl font-bold text-center mb-6">Why Choose Us?</h2>
         <div className="grid md:grid-cols-3 gap-6 text-center">
@@ -133,25 +109,6 @@ export default function Home() {
             <p className="text-gray-600 dark:text-gray-400 mt-2">
               Our team is here to help you anytime
             </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ✅ Extra Section 2: Top Categories */}
-      <section className="mb-12 px-6">
-        <h2 className="text-2xl font-bold text-center mb-6">Top Categories</h2>
-        <div className="grid md:grid-cols-4 gap-6">
-          <div className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow text-center">
-            <h3 className="font-semibold">Web Development</h3>
-          </div>
-          <div className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow text-center">
-            <h3 className="font-semibold">Graphic Design</h3>
-          </div>
-          <div className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow text-center">
-            <h3 className="font-semibold">Digital Marketing</h3>
-          </div>
-          <div className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow text-center">
-            <h3 className="font-semibold">Content Writing</h3>
           </div>
         </div>
       </section>
