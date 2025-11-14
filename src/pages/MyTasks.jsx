@@ -7,25 +7,19 @@ const MyTasks = () => {
   const { user } = useAuth();
   const [tasks, setTasks] = useState([]);
 
-  // ✅ ইউজারের নিজের টাস্ক লোড করা
   useEffect(() => {
     const fetchTasks = async () => {
-      if (!user?.email) return; // যদি ইউজার লোড না হয়
+      if (!user?.email) return;
       try {
         const res = await fetch("http://localhost:4000/api/taskroute/mytaskdata", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email: user.email }),
         });
 
         const data = await res.json();
-        if (data.success) {
-          setTasks(data.data);
-        } else {
-          toast.error("Failed to fetch tasks");
-        }
+        if (data.success) setTasks(data.data);
+        else toast.error("Failed to fetch tasks");
       } catch (error) {
         console.error("Error fetching tasks:", error);
         toast.error("An error occurred while fetching tasks");
@@ -35,70 +29,58 @@ const MyTasks = () => {
     fetchTasks();
   }, [user?.email]);
 
-  // ✅ টাস্ক ডিলিট ফাংশন
   const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this task?")) {
-      try {
-        const res = await fetch(`http://localhost:4000/api/taskroute/tasks/${id}`, {
-          method: "DELETE",
-        });
-
-        const data = await res.json();
-
-        if (data.success) {
-          toast.success("Task Deleted!");
-          setTasks((prev) => prev.filter((t) => t._id !== id));
-        } else {
-          toast.error("Failed to delete task");
-        }
-      } catch (error) {
-        console.error("Delete error:", error);
-        toast.error("An error occurred while deleting the task");
-      }
+    if (!window.confirm("Are you sure you want to delete this task?")) return;
+    try {
+      const res = await fetch(`http://localhost:4000/api/taskroute/tasks/${id}`, { method: "DELETE" });
+      const data = await res.json();
+      if (data.success) {
+        toast.success("Task Deleted!");
+        setTasks((prev) => prev.filter((t) => t._id !== id));
+      } else toast.error("Failed to delete task");
+    } catch (error) {
+      console.error("Delete error:", error);
+      toast.error("An error occurred while deleting the task");
     }
   };
 
   return (
-    <div className="max-w-5xl mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-6 text-center">My Posted Tasks</h2>
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-10 px-4">
+      <h2 className="text-4xl font-extrabold text-center mb-10 bg-gradient-to-r from-purple-600 to-indigo-600 text-transparent bg-clip-text drop-shadow">
+        My Posted Tasks
+      </h2>
 
       {tasks.length === 0 ? (
-        <p className="text-center text-gray-500">No tasks found!</p>
+        <p className="text-center text-gray-600 dark:text-gray-300">No tasks found!</p>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="table w-full">
-            <thead>
-              <tr className="bg-base-200">
-                <th>Title</th>
-                <th>Budget</th>
-                <th>Deadline</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tasks.map((task) => (
-                <tr key={task._id}>
-                  <td>{task.title}</td>
-                  <td>${task.budget}</td>
-                  <td>{new Date(task.deadline || task.date).toLocaleDateString()}</td>
-                  <td className="space-x-2">
-                    <Link
-                      to={`/update-task/${task._id}`}
-                      className="btn btn-xs btn-info text-white"
-                    >
-                      Update
-                    </Link>
-                    <button
-                      onClick={() => handleDelete(task._id)}
-                      className="btn btn-xs btn-error text-white"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="max-w-6xl mx-auto grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {tasks.map((task) => (
+            <div
+              key={task._id}
+              className="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1 border-l-4 border-purple-500"
+            >
+              <h3 className="text-xl font-bold text-purple-700 dark:text-purple-300 mb-2">{task.title}</h3>
+              <p className="text-gray-600 dark:text-gray-400 mb-2">{task.category}</p>
+              <p className="text-gray-700 dark:text-gray-300 mb-4">{task.description?.slice(0, 100)}...</p>
+              <p className="text-sm text-indigo-600 dark:text-indigo-300 font-semibold mb-4">
+                💰 ${task.budget} | 📅 {new Date(task.deadline || task.date).toLocaleDateString()}
+              </p>
+              <div className="flex gap-2">
+                <Link
+                  to={`/update-task/${task._id}`}
+                  className="flex-1 btn btn-sm bg-gradient-to-r from-purple-500 to-indigo-500 text-white hover:from-purple-600 hover:to-indigo-600"
+                >
+                  Update
+                </Link>
+                <button
+                  onClick={() => handleDelete(task._id)}
+                  className="flex-1 btn btn-sm bg-gradient-to-r from-red-500 to-pink-500 text-white hover:from-red-600 hover:to-pink-600"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       )}
     </div>

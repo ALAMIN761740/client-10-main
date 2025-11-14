@@ -58,10 +58,14 @@ const UpdateTask = () => {
       <form onSubmit={handleSubmit} className="space-y-4">
         <input type="text" name="title" defaultValue={task.title} required className="input input-bordered w-full" />
         <select name="category" defaultValue={task.category} required className="select select-bordered w-full">
-          <option>Web Development</option>
-          <option>Design</option>
-          <option>Writing</option>
-          <option>Marketing</option>
+          <option value="Web Development">Web Development</option>
+          <option value="Graphic Design">Graphic Design</option>
+          <option value="Digital Marketing">Digital Marketing</option>
+          <option value="Content Writing">Content Writing</option>
+          <option value="App Development">App Development</option>
+          <option value="UI/UX Design">UI/UX Design</option>
+          <option value="SEO Optimization">SEO Optimization</option>
+          <option value="Video Editing">Video Editing</option>
         </select>
         <textarea name="description" defaultValue={task.description} required className="textarea textarea-bordered w-full"></textarea>
         <input type="date" name="deadline" defaultValue={task.deadline.slice(0,10)} required className="input input-bordered w-full" />
