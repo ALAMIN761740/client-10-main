@@ -30,7 +30,6 @@ const MyTasks = () => {
   }, [user?.email]);
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this task?")) return;
     try {
       const res = await fetch(`http://localhost:4000/api/taskroute/tasks/${id}`, { method: "DELETE" });
       const data = await res.json();
@@ -45,8 +44,8 @@ const MyTasks = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-10 px-4">
-      <h2 className="text-4xl font-extrabold text-center mb-10 bg-gradient-to-r from-purple-600 to-indigo-600 text-transparent bg-clip-text drop-shadow">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-10 px-4">
+      <h2 className="text-4xl font-extrabold text-center mb-10 text-purple-700">
         My Posted Tasks
       </h2>
 
@@ -65,16 +64,20 @@ const MyTasks = () => {
               <p className="text-sm text-indigo-600 dark:text-indigo-300 font-semibold mb-4">
                 💰 ${task.budget} | 📅 {new Date(task.deadline || task.date).toLocaleDateString()}
               </p>
+
               <div className="flex gap-2">
+                {/* Update */}
                 <Link
                   to={`/update-task/${task._id}`}
-                  className="flex-1 btn btn-sm bg-gradient-to-r from-purple-500 to-indigo-500 text-white hover:from-purple-600 hover:to-indigo-600"
+                  className="flex-1 px-4 py-2 bg-yellow-500 text-white rounded-lg text-center hover:bg-yellow-600 transition"
                 >
                   Update
                 </Link>
+
+                {/* Delete */}
                 <button
                   onClick={() => handleDelete(task._id)}
-                  className="flex-1 btn btn-sm bg-gradient-to-r from-red-500 to-pink-500 text-white hover:from-red-600 hover:to-pink-600"
+                  className="flex-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
                 >
                   Delete
                 </button>

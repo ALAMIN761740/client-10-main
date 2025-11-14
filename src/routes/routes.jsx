@@ -72,7 +72,9 @@ const allRoutes = [
       // Browse routes
       { path: "/browse-tasks", element: <BrowseTasks /> },
       { path: "/browse-tasks/:category", element: <BrowseTasks /> },
-      { path: "/task-details/:id", element: <TaskDetails /> }
+      { path: "/task-details/:id", element: <TaskDetails /> },
+      { path: "/update-task/:id", element: <UpdateTask /> }
+
     ],
   },
   { path: "*", element: <NotFoundPage /> },

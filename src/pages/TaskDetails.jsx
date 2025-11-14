@@ -29,21 +29,61 @@ const TaskDetails = () => {
     fetchTask();
   }, [id]);
 
-  if (loading) return <p className="text-center mt-10">Loading task details...</p>;
-  if (error) return <p className="text-center mt-10 text-red-600">{error}</p>;
-  if (!task) return <p className="text-center mt-10">No task found.</p>;
+  if (loading)
+    return <p className="text-center mt-10 animate-pulse text-purple-600">Loading task details...</p>;
+
+  if (error)
+    return <p className="text-center mt-10 text-red-600 font-semibold">{error}</p>;
+
+  if (!task)
+    return <p className="text-center mt-10 text-gray-600">No task found.</p>;
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white dark:bg-gray-800 shadow rounded mt-10">
-      <h2 className="text-3xl font-bold mb-4 text-purple-700 dark:text-purple-300">{task.title}</h2>
-      <div className="mb-4"><b>Category:</b> {task.category || "N/A"}</div>
-      <div className="mb-4"><b>Description:</b> {task.description || "N/A"}</div>
-      <div className="mb-4"><b>Deadline:</b> {task.deadline ? new Date(task.deadline).toLocaleDateString() : "N/A"}</div>
-      <div className="mb-4"><b>Budget:</b> ${task.budget || "N/A"}</div>
-      <div className="mb-4"><b>Posted By:</b> {task.name || "N/A"} ({task.email || "N/A"})</div>
-      <Link to="/browse-tasks" className="inline-block mt-6 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition">
+    <div className="max-w-3xl mx-auto p-6 mt-12">
+
+      <div className="relative bg-white dark:bg-gray-900 shadow-xl rounded-2xl p-8 
+                      border border-purple-400/30 backdrop-blur-md
+                      hover:shadow-purple-500/40 transition-all duration-300 hover:scale-[1.01]">
+
+        {/* Decorative Gradient Line */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-t-xl" />
+
+        {/* Title */}
+        <h2 className="text-4xl font-extrabold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent mb-6">
+          {task.title}
+        </h2>
+
+        {/* Details */}
+        <div className="space-y-4 text-lg">
+          <p><span className="font-semibold text-purple-600 dark:text-purple-300">Category:</span> {task.category || "N/A"}</p>
+
+          <p><span className="font-semibold text-purple-600 dark:text-purple-300">Description:</span> {task.description || "N/A"}</p>
+
+          <p><span className="font-semibold text-purple-600 dark:text-purple-300">Deadline:</span> 
+            {task.deadline ? new Date(task.deadline).toLocaleDateString() : "N/A"}
+          </p>
+
+          <p><span className="font-semibold text-purple-600 dark:text-purple-300">Budget:</span> 
+            ${task.budget || "N/A"}
+          </p>
+
+          <p><span className="font-semibold text-purple-600 dark:text-purple-300">Posted By:</span> 
+            {task.name || "N/A"} ({task.email || "N/A"})
+          </p>
+        </div>
+
+        {/* Back Button */}
+        <Link
+          to="/browse-tasks"
+          className="inline-block mt-8 px-6 py-3 rounded-xl font-semibold text-white
+                     bg-gradient-to-r from-purple-600 to-indigo-600 
+                     hover:from-purple-700 hover:to-indigo-700
+                     shadow-lg hover:shadow-purple-500/40 
+                     transition-all duration-300"
+        >
         Back to Tasks
-      </Link>
+        </Link>
+      </div>
     </div>
   );
 };
